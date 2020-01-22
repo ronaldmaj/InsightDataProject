@@ -39,7 +39,7 @@ def get_comments_page(YT_client,vid_ID, order_option,pagetok=None):
         videoId=vid_ID
     )
     response = request.execute()
-    time.sleep(0.3)
+    time.sleep(0.8126)
     return response
 
 
@@ -75,23 +75,8 @@ def create_comments_df(YT_client, vid_ID, order_option='relevance', max_pgs=1):
                 data = {"CommID": reply['id']}
                 data.update(reply['snippet'])
                 df_comms = df_comms.append(data,ignore_index=True)
-    
     return df_comms
 
-# Given a YouTube channel link, download the comments from the n most recent 
-# videos from that channel.
-    
-#def get_channel_from_category(YT_client, categoryID):
-
-#    request = YT_client.channels.list(
-#        part="contentDetails",
-#        maxResults=100,
-#        order=order_option,
-#        pageToken = pagetok,
-#        textFormat="plainText",
-#        videoId=vid_ID
-#    )
-#    response = request.execute()
 
 def get_channel_IDs(YT_client,cat_num):
 
@@ -112,15 +97,17 @@ def get_videos_of_channel(YT_client, channelID):
     time.sleep(0.3)
     return response
 
-# -*- coding: utf-8 -*-
 
-# Sample Python code for youtube.search.list
-# See instructions for running these code samples locally:
-# https://developers.google.com/explorer-help/guides/code_samples#python
+def get_video_stats(YT_client, list_of_ids):
 
-
-scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
-
+    request = YT_client.videos().list(
+        part="statistics",
+        id=list_of_ids,
+        maxResults=50
+    )
+    response = request.execute()
+    time.sleep(0.3)
+    return response
 
 
 def search_results(YT_client,query):
@@ -138,36 +125,15 @@ def search_results(YT_client,query):
     time.sleep(0.3)
     return response
 
-# -*- coding: utf-8 -*-
 
-# Sample Python code for youtube.guideCategories.list
-# See instructions for running these code samples locally:
-# https://developers.google.com/explorer-help/guides/code_samples#python
-
-
-scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
-
-def main2():
-    # Disable OAuthlib's HTTPS verification when running locally.
-    # *DO NOT* leave this option enabled in production.
-    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
-    api_service_name = "youtube"
-    api_version = "v3"
-
-    # Get credentials and create an API client
-    youtube = googleapiclient.discovery.build(
-        api_service_name, api_version, developerKey = DEVELOPER_KEY)
-
+def get_YT_categories(YT_client):
     # List the guide categories from YouTube for Canada
-    request = youtube.guideCategories().list(
+    request = YT_client.guideCategories().list(
         part="snippet",
         regionCode="CA"
     )
     response = request.execute()
     time.sleep(0.3)
     return response
-
-
 
 
