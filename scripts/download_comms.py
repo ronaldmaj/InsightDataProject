@@ -14,7 +14,7 @@ import pandas as pd
 import yt_cm as cm
 import json
 #%%
-insight_dir = 'C:\\Users\\Ronald Maj\\Documents\\GitHub\\InsightDataProject\\'
+insight_dir = os.getcwd()[0:19]+'\\Documents\\GitHub\\InsightDataProject\\'
 
 # Set up the Youtube client, search for the top 50 results for 'vlog' and
 # extract the channel Ids into a dataframe: 
