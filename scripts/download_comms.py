@@ -53,7 +53,7 @@ channel_info = {
 
 channels_df = pd.DataFrame.from_dict(channel_info)
 
-channels_df.to_csv(insight_dir+'data\\processed\\channels_top50_df.csv')
+#channels_df.to_csv(insight_dir+'data\\processed\\channels_top50_df.csv')
 
 #%%
 
@@ -88,7 +88,7 @@ def videos_of_channel_call(YT_client, channel_id):
          file.write(json_txt) 
     return vids_dict
 
-for c_id in channels_df['ChannelID']:
+for c_id in channels_df['ChannelID'][49:]:
     vids_dict = videos_of_channel_call(YT_client, c_id)
     vids_list = vids_dict['items']
     # Only keep channels that have more than 30 videos
@@ -104,16 +104,16 @@ for c_id in channels_df['ChannelID']:
                 }
             vids_df = vids_df.append(vid_dict, ignore_index=True)
 
-vids_df.to_csv(insight_dir+'data\\processed\\videos_top30_df.csv')
+#vids_df.to_csv(insight_dir+'data\\processed\\videos_top30_df.csv')
 
 df_comms_list = []
 
 #%%
 
-if lastest_vid:
-    strt = vids_df[vids_df['VidID'] == lastest_vid].index[0]
-else:
-    strt = -1
+#if lastest_vid:
+#    strt = vids_df[vids_df['VidID'] == lastest_vid].index[0]
+#else:
+strt = -1
 
 # Now for each video, need to get the comments.
 for v_id in vids_df['VidID'][strt+1:]:
@@ -174,12 +174,12 @@ for v_id in vids_df['VidID'][strt+1:]:
                 df_comms = df_comms.append(data,ignore_index=True)
     df_comms_list.append(df_comms)
 
-if comms_df.empty:
-    comms_df = pd.DataFrame(columns=df_comms_list[0].columns)
-else:
-    pass
+#if comms_df.empty:
+comms_df = pd.DataFrame(columns=df_comms_list[0].columns)
+#else:
+#    pass
 
 for df in df_comms_list:
     comms_df = comms_df.append(df, ignore_index=True)
     
-comms_df.to_csv(insight_dir+'data\\processed\\comments_df.csv')
+comms_df.to_csv(insight_dir+'data\\processed\\comments_df3.csv')
