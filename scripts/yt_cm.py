@@ -97,7 +97,6 @@ def get_videos_of_channel(YT_client, channelID):
     time.sleep(0.3)
     return response
 
-
 def get_video_stats(YT_client, list_of_ids):
 
     request = YT_client.videos().list(

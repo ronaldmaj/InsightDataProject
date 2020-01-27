@@ -74,7 +74,7 @@ plt.xlabel('Polarity')
 plt.ylabel('No. of Terms')
 sns.set_style('darkgrid')
 sns.distplot(sents_rm_neu_cassie,kde=True)
-sents_plot.savefig(os.getcwd()[0:19]+'\\Documents\\GitHub\\verySimpleApp\\static\\ex.png')
+
 
 test_df['Sentiment_Polarity'] = sents
 
@@ -109,10 +109,9 @@ samp_vids = pd.merge(sents_df,vids_df.head(30)[['VidID','viewCount','comm_views'
 samp_vids = samp_vids.sort_values(by='Published').reset_index().drop(axis=1,labels='index')
 
 views_fig = samp_vids.plot.line(x='Published',y=['viewCount'],figsize=(15,8), marker='o',logy=False, title='View Count')
-views_fig.savefig(os.getcwd()[0:19]+'\\Documents\\GitHub\\verySimpleApp\\static\\views_fig.png')
 
 engage_fig = samp_vids.plot.line(x='Published',y=['comm_views','like_views','dislike_views'],figsize=(16,8), marker='o',logy=True,title='Engagement Metrics')
-engage_fig.savefig(os.getcwd()[0:19]+'\\Documents\\GitHub\\verySimpleApp\\static\\engage_fig.png')
+
 
 sents_plot = plt.figure(figsize=(8, 8))
 plt.title('Sentiment Analysis')
@@ -121,3 +120,5 @@ plt.ylabel('No. of Terms')
 sns.set_style('darkgrid')
 sns.distplot(sents_rm_neu_cassie,kde=True)
 sents_plot.savefig(os.getcwd()[0:19]+'\\Documents\\GitHub\\verySimpleApp\\static\\sent_dist_fig.png')
+views_fig.savefig(os.getcwd()[0:19]+'\\Documents\\GitHub\\verySimpleApp\\static\\views_fig.png')
+engage_fig.savefig(os.getcwd()[0:19]+'\\Documents\\GitHub\\verySimpleApp\\static\\engage_fig.png')
