@@ -2,3 +2,4 @@
 /data/raw/videos/*
 /data/raw/channels/*
 /data/processed/*
+*.pkl
