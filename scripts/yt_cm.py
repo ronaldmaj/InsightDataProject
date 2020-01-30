@@ -14,6 +14,8 @@ import pandas as pd
 with open(os.getcwd()[0:19]+'\\Documents\\GitHub\\YT_API_key.txt','r') as f_API:
     DEVELOPER_KEY = f_API.read()
 
+
+
 def set_up_YT_client():
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
@@ -24,6 +26,8 @@ def set_up_YT_client():
 
     return googleapiclient.discovery.build(
         api_service_name, api_version, developerKey = DEVELOPER_KEY)
+
+
 
 # Get one page of comments
 def get_comments_page(YT_client,vid_ID, order_option,pagetok=None):
@@ -78,6 +82,7 @@ def create_comments_df(YT_client, vid_ID, order_option='relevance', max_pgs=1):
     return df_comms
 
 
+
 def get_channel_IDs(YT_client,cat_num):
 
     request = YT_client.channels.list(
@@ -87,7 +92,10 @@ def get_channel_IDs(YT_client,cat_num):
     response = request.execute()
     return response
 
+
+
 def get_videos_of_channel(YT_client, channelID):
+    
     request = YT_client.playlistItems().list(
         part="snippet",
         maxResults=50,
@@ -96,6 +104,8 @@ def get_videos_of_channel(YT_client, channelID):
     response = request.execute()
     time.sleep(0.3)
     return response
+
+
 
 def get_video_stats(YT_client, list_of_ids):
 
@@ -107,6 +117,20 @@ def get_video_stats(YT_client, list_of_ids):
     response = request.execute()
     time.sleep(0.3)
     return response
+
+
+
+def get_channel_stats(YT_client, list_of_ids):
+    
+    request = YT_client.channels().list(
+        part="snippet,statistics",
+        id=list_of_ids,
+        maxResults=50
+    )
+    response = request.execute()
+    time.sleep(0.3)
+    return response
+
 
 
 def search_results(YT_client,query):
@@ -123,6 +147,7 @@ def search_results(YT_client,query):
     response = request.execute()
     time.sleep(0.3)
     return response
+
 
 
 def get_YT_categories(YT_client):
