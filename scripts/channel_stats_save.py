@@ -47,7 +47,8 @@ df_chan_info = pd.DataFrame(columns = [
 snippet_keys = [
     'title',
     'description',
-    'publishedAt']
+    'publishedAt',
+    'thumbnails']
 #    'country']
 
 stats_keys = [
