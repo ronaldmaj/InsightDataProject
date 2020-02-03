@@ -1,0 +1,378 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube Comment Analyzer</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+	
+  </head>
+  <body>
+
+    <!-- Start Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li class="menu-text">Find out what the most engaged users are saying!</li>
+        </ul>
+      </div>
+    </div> 
+    <!-- End Top Bar -->
+
+    <div class="callout large">
+      <div class="row column text-center">
+        <h1>Commentube</h1>
+		<h3>Market Insights Through YouTube Comments</h3>
+		<br>
+		<br>
+        <p class="lead">Find the most relevant comments and their channels!</p>
+		<br>
+		<div class="row">
+          <form action="/output" method="GET" id="keyword">
+		  <div class="small-3 columns">
+            <label for="middle-label" class="middle">Enter Keyword/s to search:</label>
+          </div>
+          
+		  <div class="small-3 columns">
+		  
+            <input class="form-control" type="text" id="keyword" name='keyword' placeholder="e.g. Canon">
+		  
+          </div>
+		
+		  <div class="small-3 columns">
+            <label for="middle-label" class="middle">Similarity Threshold (between 0 - 1)</label>
+          </div>
+          
+		  <div class="small-3 columns">
+            <input class="form-control" type="text" id="sim_thresh" name='sim_thresh' placeholder="e.g. 0.4">
+		  </form>
+          </div>
+		  
+        </div>
+        </div>
+		<br>
+		<br>
+        <button type="submit" class="button large expanded" form="keyword">Search Comments</button>
+      </div>
+    </div>
+	
+  	{% if my_form_result=='Empty' %}
+	<div class="container">
+  	<div class="row mt-4 justify-content-center">
+        	<h4 class="text-danger text-center text-uppercase">No input</h4>
+  	</div>
+	</div>
+	
+  	{% elif my_form_result=='NotEmpty' %}
+   <div class="column row">
+
+      <ul class="tabs" data-tabs id="example-tabs">
+        <li class="tabs-title"><a href="#panel1">Comments</a></li>
+        <li class="tabs-title is-active"><a href="#panel2" aria-selected="true">Channels</a></li>
+      </ul>
+      <div class="tabs-content" data-tabs-content="example-tabs">
+        <div class="tabs-panel" id="panel1">
+          <h3>Comments</h3>
+          <h4>Total No. Comments: {{comm_dicts[0]}}</h4>
+		<hr>
+		<hr>
+		  
+          <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{comm_dicts[1]['Profile Pic']}}>
+            </div>
+            <div class="media-object-section">
+              <h4>{{comm_dicts[1]['Name']}}</h4>
+              <h5>{{comm_dicts[1]['Comment']}}</h5>
+			  <p><b>Similarity Score:</b> {{comm_dicts[1]['Sim Score']}}</p>
+			  <p>Video: <a href={{comm_dicts[1]['Vid_url']}}>{{comm_dicts[1]['Vid_title']}}</a></p>
+			  <p>Channel: <a href={{comm_dicts[1]['Chan_url']}}>{{comm_dicts[1]['Channel Name']}}</a></p>
+            </div>
+          </div>
+		  
+		  <hr>
+		  
+          <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{comm_dicts[2]['Profile Pic']}}>
+            </div>
+            <div class="media-object-section">
+              <h4>{{comm_dicts[2]['Name']}}</h4>
+              <h5>{{comm_dicts[2]['Comment']}}</h5>
+			  <p><b>Similarity Score:</b> {{comm_dicts[2]['Sim Score']}}</p>
+			  <p>Video: <a href={{comm_dicts[2]['Vid_url']}}>{{comm_dicts[2]['Vid_title']}}</a></p>
+			  <p>Channel: <a href={{comm_dicts[2]['Chan_url']}}>{{comm_dicts[2]['Channel Name']}}</a></p>
+            </div>
+          </div>
+		  
+		  <hr>
+		  
+           <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{comm_dicts[3]['Profile Pic']}}>
+            </div>
+            <div class="media-object-section">
+              <h4>{{comm_dicts[3]['Name']}}</h4>
+              <h5>{{comm_dicts[3]['Comment']}}</h5>
+			  <p><b>Similarity Score:</b> {{comm_dicts[3]['Sim Score']}}</p>
+			  <p>Video: <a href={{comm_dicts[3]['Vid_url']}}>{{comm_dicts[3]['Vid_title']}}</a></p>
+			  <p>Channel: <a href={{comm_dicts[3]['Chan_url']}}>{{comm_dicts[3]['Channel Name']}}</a></p>
+            </div>
+          </div>
+
+		<hr>
+
+           <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{comm_dicts[4]['Profile Pic']}}>
+            </div>
+            <div class="media-object-section">
+              <h4>{{comm_dicts[4]['Name']}}</h4>
+              <h5>{{comm_dicts[4]['Comment']}}</h5>
+			  <p><b>Similarity Score:</b> {{comm_dicts[4]['Sim Score']}}</p>
+			  <p>Video: <a href={{comm_dicts[4]['Vid_url']}}>{{comm_dicts[4]['Vid_title']}}</a></p>
+			  <p>Channel: <a href={{comm_dicts[4]['Chan_url']}}>{{comm_dicts[4]['Channel Name']}}</a></p>
+            </div>
+          </div>
+
+		<hr>
+
+          <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{comm_dicts[5]['Profile Pic']}}>
+            </div>
+            <div class="media-object-section">
+              <h4>{{comm_dicts[5]['Name']}}</h4>
+              <h5>{{comm_dicts[5]['Comment']}}</h5>
+			  <p><b>Similarity Score:</b> {{comm_dicts[5]['Sim Score']}}</p>
+			  <p>Video: <a href={{comm_dicts[5]['Vid_url']}}>{{comm_dicts[5]['Vid_title']}}</a></p>
+			  <p>Channel: <a href={{comm_dicts[5]['Chan_url']}}>{{comm_dicts[5]['Channel Name']}}</a></p>
+            </div>
+          </div>
+          
+		  <hr>
+		  
+		  <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{comm_dicts[6]['Profile Pic']}}>
+            </div>
+            <div class="media-object-section">
+              <h4>{{comm_dicts[6]['Name']}}</h4>
+              <h5>{{comm_dicts[6]['Comment']}}</h5>
+			  <p><b>Similarity Score:</b> {{comm_dicts[6]['Sim Score']}}</p>
+			  <p>Video: <a href={{comm_dicts[6]['Vid_url']}}>{{comm_dicts[6]['Vid_title']}}</a></p>
+			  <p>Channel: <a href={{comm_dicts[6]['Chan_url']}}>{{comm_dicts[6]['Channel Name']}}</a></p>
+            </div>
+          </div>
+          </div>		  
+		  
+		  <div class="tabs-panel is-active" id="panel2">
+          <div class="tabs-content" data-tabs-content="example-tabs">
+                      <h3>Channels</h3>
+          <h4>Total No. Channels: {{chan_dicts[0]}}</h4>		  
+          <hr>
+		  <hr>
+		  
+		  <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{chan_dicts[1]['Chan Profile Pic']}}>
+            </div>
+            <div class="media-object-section">
+              <h4><a href={{chan_dicts[1]['Chan_url']}}>{{chan_dicts[1]['Channel Name']}}</a></h4>
+              <h5><b>Number of Relevant Comments:</b>{{chan_dicts[1]['Comment Fraction']}}</h5>
+			  <p>No. Subscribers: {{chan_dicts[1]['No. Subscribers']}}</p>
+			  <p>No. Views: {{chan_dicts[1]['No. Views']}}</p>
+			  <h6><b> Engagemeent Metrics </b> </h6>
+			  <p> Likes/Views (on video): {{chan_dicts[1]['Likes/Views (on video)']}} </p>
+			  <p> Comments/Views (on video): {{chan_dicts[1]['Comments/Views (on video)']}} </p>
+            </div>
+          </div>
+          
+		  <hr>
+		  
+		  <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{chan_dicts[2]['Chan Profile Pic']}}>
+            </div>
+             <div class="media-object-section">
+              <h4><a href={{chan_dicts[2]['Chan_url']}}>{{chan_dicts[2]['Channel Name']}}</a></h4>
+              <h5><b>Number of Relevant Comments:</b> {{chan_dicts[2]['Comment Fraction']}}</h5>
+			  <p>No. Subscribers: {{chan_dicts[2]['No. Subscribers']}}</p>
+			  <p>No. Views: {{chan_dicts[2]['No. Views']}}</p>
+			  <h6><b> Engagemeent Metrics </b> </h6>
+			  <p> Likes/Views (on video): {{chan_dicts[2]['Likes/Views (on video)']}} </p>
+			  <p> Comments/Views (on video): {{chan_dicts[2]['Comments/Views (on video)']}} </p>
+            </div>
+          </div>
+           
+		   <hr>
+		   
+		   <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{chan_dicts[3]['Chan Profile Pic']}}>
+            </div>
+            <div class="media-object-section">
+              <h4><a href={{chan_dicts[3]['Chan_url']}}>{{chan_dicts[3]['Channel Name']}}</a></h4>
+              <h5><b>Number of Relevant Comments:</b>{{chan_dicts[3]['Comment Fraction']}}</h5>
+			  <p>No. Subscribers: {{chan_dicts[3]['No. Subscribers']}}</p>
+			  <p>No. Views: {{chan_dicts[3]['No. Views']}}</p>
+			  <h6><b> Engagemeent Metrics </b> </h6>
+			  <p> Likes/Views (on video): {{chan_dicts[3]['Likes/Views (on video)']}} </p>
+			  <p> Comments/Views (on video): {{chan_dicts[3]['Comments/Views (on video)']}} </p>
+            </div>
+          </div>
+
+		<hr>
+
+           <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{chan_dicts[4]['Chan Profile Pic']}}>
+            </div>
+            <div class="media-object-section">
+              <h4><a href={{chan_dicts[4]['Chan_url']}}>{{chan_dicts[4]['Channel Name']}}</a></h4>
+              <h5><b>Number of Relevant Comments:</b>{{chan_dicts[4]['Comment Fraction']}}</h5>
+			  <p>No. Subscribers: {{chan_dicts[4]['No. Subscribers']}}</p>
+			  <p>No. Views: {{chan_dicts[4]['No. Views']}}</p>
+			  <h6><b> Engagemeent Metrics </b> </h6>
+			  <p> Likes/Views (on video): {{chan_dicts[4]['Likes/Views (on video)']}} </p>
+			  <p> Comments/Views (on video): {{chan_dicts[4]['Comments/Views (on video)']}} </p>
+            </div>
+          </div>
+
+		<hr>
+
+          <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{chan_dicts[5]['Chan Profile Pic']}}>
+            </div>
+            <div class="media-object-section">
+              <h4><a href={{chan_dicts[5]['Chan_url']}}>{{chan_dicts[5]['Channel Name']}}</a></h4>
+              <h5><b>Number of Relevant Comments:</b> {{chan_dicts[5]['Comment Fraction']}}</h5>
+			  <p>No. Subscribers: {{chan_dicts[5]['No. Subscribers']}}</p>
+			  <p>No. Views: {{chan_dicts[5]['No. Views']}}</p>
+			  <h6><b> Engagemeent Metrics </b> </h6>
+			  <p> Likes/Views (on video): {{chan_dicts[5]['Likes/Views (on video)']}} </p>
+			  <p> Comments/Views (on video): {{chan_dicts[5]['Comments/Views (on video)']}} </p>
+            </div>
+          </div>
+          
+		  <hr>
+		  
+		  <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <img class="thumbnail" src={{chan_dicts[6]['Chan Profile Pic']}}>
+            </div>
+            <div class="media-object-section">
+              <h4><a href={{chan_dicts[6]['Chan_url']}}>{{chan_dicts[6]['Channel Name']}}</a></h4>
+              <h5><b>Number of Relevant Comments:</b> {{chan_dicts[6]['Comment Fraction']}}</h5>
+			  <p>No. Subscribers: {{chan_dicts[6]['No. Subscribers']}}</p>
+			  <p>No. Views: {{chan_dicts[6]['No. Views']}}</p>
+			  <h6><b> Engagemeent Metrics </b> </h6>
+			  <p> Likes/Views (on video): {{chan_dicts[6]['Likes/Views (on video)']}} </p>
+			  <p> Comments/Views (on video): {{chan_dicts[6]['Comments/Views (on video)']}} </p>			  
+            </div>
+			
+			
+          </div>
+          </div>
+			
+
+          </div>
+        </div>  
+      </div>
+    </div>
+
+
+
+  	{% else %}
+  	{% endif %} 
+
+
+
+
+
+
+<!--
+	<hr class="star-light mb-5">	
+	<div class="container">
+  	<div class="row mt-4 justify-content-center">
+        	<h2 class="text-light text-center text-uppercase">Channel Analytics</h4>
+  	</div>
+  	<div class="row p-1 m-1 justify-content-center">
+        	<div class="col-md- list-group">
+               	<ul class="list-group">
+               	<h4 class="text-center">
+               	<li class="list-group-item d-flex justify-content-between align-items-center active">
+                         	<b></b>
+                        	<span class="badge badge-primary badge-pill">Name: {{my_chan}}</span>
+                      	</li>
+                    	</h4>
+				<h4 class="text-center">
+               	<li class="list-group-item d-flex justify-content-between align-items-center active">
+                         	<b></b>
+							<span class="badge badge-primary badge-pill">No. Subscribers:</span>
+                      	</li>
+                    	</h4>
+				<h4 class="text-center">
+               	<li class="list-group-item d-flex justify-content-between align-items-center active">
+                         	<b></b>
+							<span class="badge badge-primary badge-pill">Total Views:</span>
+                      	</li>
+                    	</h4>
+				<h4 class="text-center">
+               	<li class="list-group-item d-flex justify-content-between align-items-center active">
+                        	<span class="badge badge-primary badge-pill">Description: {{my_descr}}</span>
+                      	</li>
+                    	</h4>
+              	</ul>
+        	</div>
+        	<div class="col">
+        	<img src="{{ url_for('static', filename = my_img_1) }}" width=500 height=416>
+        	</div> 	 
+			<div class="col">
+        	<img src="{{ url_for('static', filename = my_img_2) }}" width=500 height=416>
+        	</div> 	
+			<div class="col">
+        	<img src="{{ url_for('static', filename = my_img_3) }}" width=500 height=416>
+        	</div> 	 
+			<div class="col">
+        	<img src="{{ url_for('static', filename = my_img_4) }}" width=500 height=416>
+        	</div> 
+  	</div>
+	</div>
+
+
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+    <hr>
+
+<!--    <div class="row column">
+      <ul class="menu">
+        <li><a href="#">One</a></li>
+        <li><a href="#">Two</a></li>
+        <li><a href="#">Three</a></li>
+        <li><a href="#">Four</a></li>
+      </ul>
+    </div>
+-->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
+
+
+
