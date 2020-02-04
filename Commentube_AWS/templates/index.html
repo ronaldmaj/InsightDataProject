@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>YouTube Comment Analyzer</title>
+    <title>CommenTube - YouTube Comment Analyzer</title>
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
 	<style>
 	body {background-color:#c4302b;}
@@ -16,7 +16,7 @@
     <div class="top-bar">
       <div class="top-bar-left">
         <ul class="menu">
-          <li class="menu-text">Find out what the most engaged users are saying!</li>
+          <li class="menu-text">Marketing opportunities through YouTube Comments</li>
         </ul>
       </div>
     </div> 
@@ -28,7 +28,7 @@
 		<h3>Market Insights Through YouTube Comments</h3>
 		<br>
 		<br>
-        <p class="lead">Find the most relevant comments and their channels!</p>
+        <p class="lead">Find the most relevant channels based on user comments!</p>
 		<br>
 		<div class="row">
           <form action="/output" method="GET" id="keyword">
@@ -43,11 +43,11 @@
           </div>
 		
 		  <div class="small-3 columns">
-            <label for="middle-label" class="middle">Similarity Threshold (between 0 - 1)</label>
+            <label for="middle-label" class="middle">Number of Comment Threshhold</label>
           </div>
           
 		  <div class="small-3 columns">
-            <input class="form-control" type="text" id="sim_thresh" name='sim_thresh' placeholder="e.g. 0.4">
+            <input class="form-control" type="text" id="sim_thresh" name='sim_thresh' placeholder="e.g. 50">
 		  </form>
           </div>
 		  
@@ -182,7 +182,7 @@
             </div>
             <div class="media-object-section">
               <h4><a href={{chan_dicts[1]['Chan_url']}}>{{chan_dicts[1]['Channel Name']}}</a></h4>
-              <h5><b>Number of Relevant Comments:</b>{{chan_dicts[1]['Comment Fraction']}}</h5>
+              <h5><b>Weighted Number of Relevant Comments:</b>{{chan_dicts[1]['Comment Fraction']}}</h5>
 			  <p>No. Subscribers: {{chan_dicts[1]['No. Subscribers']}}</p>
 			  <p>No. Views: {{chan_dicts[1]['No. Views']}}</p>
 			  <h6><b> Engagemeent Metrics </b> </h6>
@@ -199,7 +199,7 @@
             </div>
              <div class="media-object-section">
               <h4><a href={{chan_dicts[2]['Chan_url']}}>{{chan_dicts[2]['Channel Name']}}</a></h4>
-              <h5><b>Number of Relevant Comments:</b> {{chan_dicts[2]['Comment Fraction']}}</h5>
+              <h5><b>Weighted Number of Relevant Comments:</b> {{chan_dicts[2]['Comment Fraction']}}</h5>
 			  <p>No. Subscribers: {{chan_dicts[2]['No. Subscribers']}}</p>
 			  <p>No. Views: {{chan_dicts[2]['No. Views']}}</p>
 			  <h6><b> Engagemeent Metrics </b> </h6>
@@ -216,7 +216,7 @@
             </div>
             <div class="media-object-section">
               <h4><a href={{chan_dicts[3]['Chan_url']}}>{{chan_dicts[3]['Channel Name']}}</a></h4>
-              <h5><b>Number of Relevant Comments:</b>{{chan_dicts[3]['Comment Fraction']}}</h5>
+              <h5><b>Weighted Number of Relevant Comments:</b>{{chan_dicts[3]['Comment Fraction']}}</h5>
 			  <p>No. Subscribers: {{chan_dicts[3]['No. Subscribers']}}</p>
 			  <p>No. Views: {{chan_dicts[3]['No. Views']}}</p>
 			  <h6><b> Engagemeent Metrics </b> </h6>
@@ -233,7 +233,7 @@
             </div>
             <div class="media-object-section">
               <h4><a href={{chan_dicts[4]['Chan_url']}}>{{chan_dicts[4]['Channel Name']}}</a></h4>
-              <h5><b>Number of Relevant Comments:</b>{{chan_dicts[4]['Comment Fraction']}}</h5>
+              <h5><b>Weighted Number of Relevant Comments:</b>{{chan_dicts[4]['Comment Fraction']}}</h5>
 			  <p>No. Subscribers: {{chan_dicts[4]['No. Subscribers']}}</p>
 			  <p>No. Views: {{chan_dicts[4]['No. Views']}}</p>
 			  <h6><b> Engagemeent Metrics </b> </h6>
@@ -250,7 +250,7 @@
             </div>
             <div class="media-object-section">
               <h4><a href={{chan_dicts[5]['Chan_url']}}>{{chan_dicts[5]['Channel Name']}}</a></h4>
-              <h5><b>Number of Relevant Comments:</b> {{chan_dicts[5]['Comment Fraction']}}</h5>
+              <h5><b>Weighted Number of Relevant Comments:</b> {{chan_dicts[5]['Comment Fraction']}}</h5>
 			  <p>No. Subscribers: {{chan_dicts[5]['No. Subscribers']}}</p>
 			  <p>No. Views: {{chan_dicts[5]['No. Views']}}</p>
 			  <h6><b> Engagemeent Metrics </b> </h6>
@@ -267,7 +267,7 @@
             </div>
             <div class="media-object-section">
               <h4><a href={{chan_dicts[6]['Chan_url']}}>{{chan_dicts[6]['Channel Name']}}</a></h4>
-              <h5><b>Number of Relevant Comments:</b> {{chan_dicts[6]['Comment Fraction']}}</h5>
+              <h5><b>Weighted Number of Relevant Comments:</b> {{chan_dicts[6]['Comment Fraction']}}</h5>
 			  <p>No. Subscribers: {{chan_dicts[6]['No. Subscribers']}}</p>
 			  <p>No. Views: {{chan_dicts[6]['No. Views']}}</p>
 			  <h6><b> Engagemeent Metrics </b> </h6>
