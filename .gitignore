@@ -5,3 +5,4 @@
 /data/cleaned/*
 *.pkl
 *.npy
+*.csv
