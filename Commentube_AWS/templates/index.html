@@ -16,7 +16,7 @@
     <div class="top-bar">
       <div class="top-bar-left">
         <ul class="menu">
-          <li class="menu-text">Marketing opportunities through YouTube Comments</li>
+          <li class="menu-text">Find YouTube Creators based on their engaged users!</li>
         </ul>
       </div>
     </div> 
@@ -24,35 +24,42 @@
 
     <div class="callout large">
       <div class="row column text-center">
+	  <img src="https://i.imgur.com/LMrskDl.png" alt="Logo" width="150" height="150">
         <h1 style="color:white">CommenTube</h1>
-		<h3>Market Insights Through YouTube Comments</h3>
+		<h3>Helping brands find the right YouTuber</h3>
 		<br>
 		<br>
         <p class="lead">Find the most relevant channels based on user comments!</p>
 		<br>
+		<form action="/output" method="GET" id="keyword">		
 		<div class="row">
-          <form action="/output" method="GET" id="keyword">
-		  <div class="small-3 columns">
-            <label for="middle-label" class="middle">Enter Keyword/s to search:</label>
+        
+
+		  
+		  <div class="small-6 columns">
+            <label for="middle-label" class="middle" style="font-size:20px">Enter Keyword/s to search:</label>
           </div>
           
-		  <div class="small-3 columns">
-		  
+		  <div class="small-6 columns">
             <input class="form-control" type="text" id="keyword" name='keyword' placeholder="e.g. Canon">
+          </div>
 		  
           </div>
+        
 		
-		  <div class="small-3 columns">
-            <label for="middle-label" class="middle">Number of Comment Threshhold</label>
+		
+		<div class="row">
+		  <div class="small-6 columns">
+            <label for="middle-label" class="middle" style="font-size:20px">No. of Top Comments to search:</label>
           </div>
-          
-		  <div class="small-3 columns">
+     
+		  <div class="small-6 columns">
             <input class="form-control" type="text" id="sim_thresh" name='sim_thresh' placeholder="e.g. 50">
-		  </form>
-          </div>
-		  
+			</div>
+		
         </div>
-        </div>
+		</form>
+		</div>
 		<br>
 		<br>
         <button type="submit" class="button large expanded" form="keyword">Search Comments</button>
@@ -87,9 +94,9 @@
             <div class="media-object-section">
               <h4>{{comm_dicts[1]['Name']}}</h4>
               <h5>{{comm_dicts[1]['Comment']}}</h5>
-			  <p><b>Similarity Score:</b> {{comm_dicts[1]['Sim Score']}}</p>
-			  <p>Video: <a href={{comm_dicts[1]['Vid_url']}}>{{comm_dicts[1]['Vid_title']}}</a></p>
-			  <p>Channel: <a href={{comm_dicts[1]['Chan_url']}}>{{comm_dicts[1]['Channel Name']}}</a></p>
+			  <p style="font-size:18px"><b>Similarity Score:</b> {{comm_dicts[1]['Sim Score']}}</p>
+			  <p style="font-size:18px">Video: <a href={{comm_dicts[1]['Vid_url']}}>{{comm_dicts[1]['Vid_title']}}</a></p>
+			  <p style="font-size:18px">Channel: <a href={{comm_dicts[1]['Chan_url']}}>{{comm_dicts[1]['Channel Name']}}</a></p>
             </div>
           </div>
 		  
@@ -102,9 +109,9 @@
             <div class="media-object-section">
               <h4>{{comm_dicts[2]['Name']}}</h4>
               <h5>{{comm_dicts[2]['Comment']}}</h5>
-			  <p><b>Similarity Score:</b> {{comm_dicts[2]['Sim Score']}}</p>
-			  <p>Video: <a href={{comm_dicts[2]['Vid_url']}}>{{comm_dicts[2]['Vid_title']}}</a></p>
-			  <p>Channel: <a href={{comm_dicts[2]['Chan_url']}}>{{comm_dicts[2]['Channel Name']}}</a></p>
+			  <p style="font-size:18px"><b>Similarity Score:</b> {{comm_dicts[2]['Sim Score']}}</p>
+			  <p style="font-size:18px">Video: <a href={{comm_dicts[2]['Vid_url']}}>{{comm_dicts[2]['Vid_title']}}</a></p>
+			  <p style="font-size:18px">Channel: <a href={{comm_dicts[2]['Chan_url']}}>{{comm_dicts[2]['Channel Name']}}</a></p>
             </div>
           </div>
 		  
@@ -117,9 +124,9 @@
             <div class="media-object-section">
               <h4>{{comm_dicts[3]['Name']}}</h4>
               <h5>{{comm_dicts[3]['Comment']}}</h5>
-			  <p><b>Similarity Score:</b> {{comm_dicts[3]['Sim Score']}}</p>
-			  <p>Video: <a href={{comm_dicts[3]['Vid_url']}}>{{comm_dicts[3]['Vid_title']}}</a></p>
-			  <p>Channel: <a href={{comm_dicts[3]['Chan_url']}}>{{comm_dicts[3]['Channel Name']}}</a></p>
+			  <p style="font-size:18px"><b>Similarity Score:</b> {{comm_dicts[3]['Sim Score']}}</p>
+			  <p style="font-size:18px">Video: <a href={{comm_dicts[3]['Vid_url']}}>{{comm_dicts[3]['Vid_title']}}</a></p>
+			  <p style="font-size:18px">Channel: <a href={{comm_dicts[3]['Chan_url']}}>{{comm_dicts[3]['Channel Name']}}</a></p>
             </div>
           </div>
 
@@ -132,9 +139,9 @@
             <div class="media-object-section">
               <h4>{{comm_dicts[4]['Name']}}</h4>
               <h5>{{comm_dicts[4]['Comment']}}</h5>
-			  <p><b>Similarity Score:</b> {{comm_dicts[4]['Sim Score']}}</p>
-			  <p>Video: <a href={{comm_dicts[4]['Vid_url']}}>{{comm_dicts[4]['Vid_title']}}</a></p>
-			  <p>Channel: <a href={{comm_dicts[4]['Chan_url']}}>{{comm_dicts[4]['Channel Name']}}</a></p>
+			  <p style="font-size:18px"><b>Similarity Score:</b> {{comm_dicts[4]['Sim Score']}}</p>
+			  <p style="font-size:18px">Video: <a href={{comm_dicts[4]['Vid_url']}}>{{comm_dicts[4]['Vid_title']}}</a></p>
+			  <p style="font-size:18px">Channel: <a href={{comm_dicts[4]['Chan_url']}}>{{comm_dicts[4]['Channel Name']}}</a></p>
             </div>
           </div>
 
@@ -147,9 +154,9 @@
             <div class="media-object-section">
               <h4>{{comm_dicts[5]['Name']}}</h4>
               <h5>{{comm_dicts[5]['Comment']}}</h5>
-			  <p><b>Similarity Score:</b> {{comm_dicts[5]['Sim Score']}}</p>
-			  <p>Video: <a href={{comm_dicts[5]['Vid_url']}}>{{comm_dicts[5]['Vid_title']}}</a></p>
-			  <p>Channel: <a href={{comm_dicts[5]['Chan_url']}}>{{comm_dicts[5]['Channel Name']}}</a></p>
+			  <p style="font-size:18px"><b>Similarity Score:</b> {{comm_dicts[5]['Sim Score']}}</p>
+			  <p style="font-size:18px">Video: <a href={{comm_dicts[5]['Vid_url']}}>{{comm_dicts[5]['Vid_title']}}</a></p>
+			  <p style="font-size:18px">Channel: <a href={{comm_dicts[5]['Chan_url']}}>{{comm_dicts[5]['Channel Name']}}</a></p>
             </div>
           </div>
           
@@ -162,9 +169,9 @@
             <div class="media-object-section">
               <h4>{{comm_dicts[6]['Name']}}</h4>
               <h5>{{comm_dicts[6]['Comment']}}</h5>
-			  <p><b>Similarity Score:</b> {{comm_dicts[6]['Sim Score']}}</p>
-			  <p>Video: <a href={{comm_dicts[6]['Vid_url']}}>{{comm_dicts[6]['Vid_title']}}</a></p>
-			  <p>Channel: <a href={{comm_dicts[6]['Chan_url']}}>{{comm_dicts[6]['Channel Name']}}</a></p>
+			  <p style="font-size:18px"><b>Similarity Score:</b> {{comm_dicts[6]['Sim Score']}}</p>
+			  <p style="font-size:18px">Video: <a href={{comm_dicts[6]['Vid_url']}}>{{comm_dicts[6]['Vid_title']}}</a></p>
+			  <p style="font-size:18px">Channel: <a href={{comm_dicts[6]['Chan_url']}}>{{comm_dicts[6]['Channel Name']}}</a></p>
             </div>
           </div>
           </div>		  
@@ -182,12 +189,12 @@
             </div>
             <div class="media-object-section">
               <h4><a href={{chan_dicts[1]['Chan_url']}}>{{chan_dicts[1]['Channel Name']}}</a></h4>
-              <h5><b>Weighted Number of Relevant Comments:</b>{{chan_dicts[1]['Comment Fraction']}}</h5>
-			  <p>No. Subscribers: {{chan_dicts[1]['No. Subscribers']}}</p>
-			  <p>No. Views: {{chan_dicts[1]['No. Views']}}</p>
-			  <h6><b> Engagemeent Metrics </b> </h6>
-			  <p> Likes/Views (on video): {{chan_dicts[1]['Likes/Views (on video)']}} </p>
-			  <p> Comments/Views (on video): {{chan_dicts[1]['Comments/Views (on video)']}} </p>
+              <h5><b>Relevant Comments Score: </b>{{chan_dicts[1]['Comment Fraction']}}</h5>
+			  <p style="font-size:18px">No. Subscribers: {{chan_dicts[1]['No. Subscribers']}}</p>
+			  <p style="font-size:18px">No. Views: {{chan_dicts[1]['No. Views']}}</p>
+			  <p><h5><b> Engagement Metrics </b> </h5>
+			  <p style="font-size:18px"> Likes/Views (on video): {{chan_dicts[1]['Likes/Views (on video)']}} </p>
+			  <p style="font-size:18px"> Comments/Views (on video): {{chan_dicts[1]['Comments/Views (on video)']}} </p>
             </div>
           </div>
           
@@ -199,12 +206,12 @@
             </div>
              <div class="media-object-section">
               <h4><a href={{chan_dicts[2]['Chan_url']}}>{{chan_dicts[2]['Channel Name']}}</a></h4>
-              <h5><b>Weighted Number of Relevant Comments:</b> {{chan_dicts[2]['Comment Fraction']}}</h5>
-			  <p>No. Subscribers: {{chan_dicts[2]['No. Subscribers']}}</p>
-			  <p>No. Views: {{chan_dicts[2]['No. Views']}}</p>
-			  <h6><b> Engagemeent Metrics </b> </h6>
-			  <p> Likes/Views (on video): {{chan_dicts[2]['Likes/Views (on video)']}} </p>
-			  <p> Comments/Views (on video): {{chan_dicts[2]['Comments/Views (on video)']}} </p>
+              <h5><b>Relevant Comments Score: </b> {{chan_dicts[2]['Comment Fraction']}}</h5>
+			  <p style="font-size:18px">No. Subscribers: {{chan_dicts[2]['No. Subscribers']}}</p>
+			  <p style="font-size:18px">No. Views: {{chan_dicts[2]['No. Views']}}</p>
+			  <p><h5><b> Engagement Metrics </b> </h5>
+			  <p style="font-size:18px"> Likes/Views (on video): {{chan_dicts[2]['Likes/Views (on video)']}} </p>
+			  <p style="font-size:18px"> Comments/Views (on video): {{chan_dicts[2]['Comments/Views (on video)']}} </p>
             </div>
           </div>
            
@@ -216,12 +223,12 @@
             </div>
             <div class="media-object-section">
               <h4><a href={{chan_dicts[3]['Chan_url']}}>{{chan_dicts[3]['Channel Name']}}</a></h4>
-              <h5><b>Weighted Number of Relevant Comments:</b>{{chan_dicts[3]['Comment Fraction']}}</h5>
-			  <p>No. Subscribers: {{chan_dicts[3]['No. Subscribers']}}</p>
-			  <p>No. Views: {{chan_dicts[3]['No. Views']}}</p>
-			  <h6><b> Engagemeent Metrics </b> </h6>
-			  <p> Likes/Views (on video): {{chan_dicts[3]['Likes/Views (on video)']}} </p>
-			  <p> Comments/Views (on video): {{chan_dicts[3]['Comments/Views (on video)']}} </p>
+              <h5><b>Relevant Comments Score: </b>{{chan_dicts[3]['Comment Fraction']}}</h5>
+			  <p style="font-size:18px">No. Subscribers: {{chan_dicts[3]['No. Subscribers']}}</p>
+			  <p style="font-size:18px">No. Views: {{chan_dicts[3]['No. Views']}}</p>
+			  <p><h5><b> Engagement Metrics </b> </h5>
+			  <p style="font-size:18px"> Likes/Views (on video): {{chan_dicts[3]['Likes/Views (on video)']}} </p>
+			  <p style="font-size:18px"> Comments/Views (on video): {{chan_dicts[3]['Comments/Views (on video)']}} </p>
             </div>
           </div>
 
@@ -233,12 +240,12 @@
             </div>
             <div class="media-object-section">
               <h4><a href={{chan_dicts[4]['Chan_url']}}>{{chan_dicts[4]['Channel Name']}}</a></h4>
-              <h5><b>Weighted Number of Relevant Comments:</b>{{chan_dicts[4]['Comment Fraction']}}</h5>
-			  <p>No. Subscribers: {{chan_dicts[4]['No. Subscribers']}}</p>
-			  <p>No. Views: {{chan_dicts[4]['No. Views']}}</p>
-			  <h6><b> Engagemeent Metrics </b> </h6>
-			  <p> Likes/Views (on video): {{chan_dicts[4]['Likes/Views (on video)']}} </p>
-			  <p> Comments/Views (on video): {{chan_dicts[4]['Comments/Views (on video)']}} </p>
+              <h5><b>Relevant Comments Score: </b>{{chan_dicts[4]['Comment Fraction']}}</h5>
+			  <p style="font-size:18px">No. Subscribers: {{chan_dicts[4]['No. Subscribers']}}</p>
+			  <p style="font-size:18px">No. Views: {{chan_dicts[4]['No. Views']}}</p>
+			  <p><h5><b> Engagement Metrics </b> </h5>
+			  <p style="font-size:18px"> Likes/Views (on video): {{chan_dicts[4]['Likes/Views (on video)']}} </p>
+			  <p style="font-size:18px"> Comments/Views (on video): {{chan_dicts[4]['Comments/Views (on video)']}} </p>
             </div>
           </div>
 
@@ -250,12 +257,12 @@
             </div>
             <div class="media-object-section">
               <h4><a href={{chan_dicts[5]['Chan_url']}}>{{chan_dicts[5]['Channel Name']}}</a></h4>
-              <h5><b>Weighted Number of Relevant Comments:</b> {{chan_dicts[5]['Comment Fraction']}}</h5>
-			  <p>No. Subscribers: {{chan_dicts[5]['No. Subscribers']}}</p>
-			  <p>No. Views: {{chan_dicts[5]['No. Views']}}</p>
-			  <h6><b> Engagemeent Metrics </b> </h6>
-			  <p> Likes/Views (on video): {{chan_dicts[5]['Likes/Views (on video)']}} </p>
-			  <p> Comments/Views (on video): {{chan_dicts[5]['Comments/Views (on video)']}} </p>
+              <h5><b>Relevant Comments Score: </b> {{chan_dicts[5]['Comment Fraction']}}</h5>
+			  <p style="font-size:18px">No. Subscribers: {{chan_dicts[5]['No. Subscribers']}}</p>
+			  <p style="font-size:18px">No. Views: {{chan_dicts[5]['No. Views']}}</p>
+			  <p><h5><b> Engagement Metrics </b> </h5>
+			  <p style="font-size:18px"> Likes/Views (on video): {{chan_dicts[5]['Likes/Views (on video)']}} </p>
+			  <p style="font-size:18px"> Comments/Views (on video): {{chan_dicts[5]['Comments/Views (on video)']}} </p>
             </div>
           </div>
           
@@ -267,12 +274,12 @@
             </div>
             <div class="media-object-section">
               <h4><a href={{chan_dicts[6]['Chan_url']}}>{{chan_dicts[6]['Channel Name']}}</a></h4>
-              <h5><b>Weighted Number of Relevant Comments:</b> {{chan_dicts[6]['Comment Fraction']}}</h5>
-			  <p>No. Subscribers: {{chan_dicts[6]['No. Subscribers']}}</p>
-			  <p>No. Views: {{chan_dicts[6]['No. Views']}}</p>
-			  <h6><b> Engagemeent Metrics </b> </h6>
-			  <p> Likes/Views (on video): {{chan_dicts[6]['Likes/Views (on video)']}} </p>
-			  <p> Comments/Views (on video): {{chan_dicts[6]['Comments/Views (on video)']}} </p>			  
+              <h5><b>Relevant Comments Score: </b> {{chan_dicts[6]['Comment Fraction']}}</h5>
+			  <p style="font-size:18px">No. Subscribers: {{chan_dicts[6]['No. Subscribers']}}</p>
+			  <p style="font-size:18px">No. Views: {{chan_dicts[6]['No. Views']}}</p>
+			  <p><h5><b> Engagement Metrics </b> </h5>
+			  <p style="font-size:18px"> Likes/Views (on video): {{chan_dicts[6]['Likes/Views (on video)']}} </p>
+			  <p style="font-size:18px"> Comments/Views (on video): {{chan_dicts[6]['Comments/Views (on video)']}} </p>			  
             </div>
 			
 			
