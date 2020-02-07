@@ -9,7 +9,6 @@ Function for generating the comment / channel outputs after a user input
 
 #import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from collections import Counter
 import pandas as pd
 import numpy as np
 import spacy
@@ -17,16 +16,16 @@ import json
 from glob import glob
 from itertools import islice
 
+# Load relevant information (channel, video, comments)
 chan_info_df = pd.read_csv('all_channels_info.csv', index_col=0)
 vids_df = pd.read_csv('all_videos_dup_na_clean_df.csv', index_col=0)
 comms_df = pd.read_csv('all_comments_dup_na_clean_df.csv', index_col=0)
 
+# Start NLP model to put search term through
 nlp = spacy.load("en_core_web_lg")
-
 
 # Load the database of sentence embeddings:
 array_parts = []
-
 part_locs = glob('*.npy')
 part_locs = sorted(part_locs)
 
@@ -49,6 +48,54 @@ def human_format(num):
 def take(n, iterable):
     # Return first n items of the iterable as a list
     return list(islice(iterable, n))
+
+
+def create_comm_list(results_info_df, num_disp):
+    
+    comm_dict_list= [len(results_info_df)]
+    
+    for i in results_info_df[0:6].index:
+        comm_result_dict = {
+        'Name':results_info_df.iloc[i]['authorDisplayName'],
+        'Comment':results_info_df.iloc[i]['textDisplay'],
+        'Sim Score':round(results_info_df.iloc[i]['sim_score'],2),
+        'Profile Pic':results_info_df.iloc[i]['authorProfileImageUrl'],
+        'Vid_url':'https://www.youtube.com/watch?v='+results_info_df.iloc[i]['VidID'],
+        'Vid_title':results_info_df.iloc[i]['VidTitle'],
+        'Channel Name':results_info_df.iloc[i]['title'],
+        'Chan_url':'https://www.youtube.com/channel/'+results_info_df.iloc[i]['ChannelID']        
+            }
+        comm_dict_list.append(comm_result_dict)
+    
+    return comm_dict_list
+
+
+def create_chan_list(sim_sum_sorted_dict, results_info_df, num_disp):
+    top_chans = take(num_disp, sim_sum_sorted_dict.items())
+    
+    chan_dict_list= [human_format(len(sim_sum_sorted_dict))]
+    
+    # Create the dict for channel details to send to website:
+    for chan_id,count in top_chans:
+        chan_result = results_info_df[results_info_df['ChannelID'] == chan_id].iloc[0]
+        thumb_dict_str = chan_result['thumbnails']
+        thumb_dict_str = thumb_dict_str.replace("\'", "\"")
+        thumb_dict = json.loads(thumb_dict_str)
+        prof_pic_url = thumb_dict['default']['url']
+        chan_result_dict = {
+            'Channel Name':chan_result['title'],
+            'Chan_url':'https://www.youtube.com/channel/'+chan_id,
+            'Comment Fraction':human_format(count),
+            'No. Subscribers':human_format(chan_result['subscriberCount']),
+            'No. Views':human_format(chan_result['viewCount_chan']),
+            'Likes/Views (on video)':round(chan_result['likeCount'] / chan_result['viewCount_vid'],5),
+            'Comments/Views (on video)':round(chan_result['commentCount_vid'] / chan_result['viewCount_vid'],5),
+            'Chan Profile Pic':prof_pic_url
+            }
+        chan_dict_list.append(chan_result_dict)
+    
+    return chan_dict_list
+
 
 def get_comment_channel_results(search_term, num_comms):
     #### Put in search term of interest:
@@ -106,67 +153,41 @@ def get_comment_channel_results(search_term, num_comms):
     # Remove duplicated comments:
     results_info_df.drop_duplicates(subset='CommID', inplace=True)
     
+    # Number of comments and channels to display (atm hard coded at 6)
+    num_disp = 6
+    
+    # Create list with the comment data to send back:
+    comm_dict_list = create_comm_list(results_info_df, 
+                                      num_disp)
+    
+    
     # Create a listing of the channels associated with the comments, 
     # in order of sum of the sim_score
     
-    sim_sun_dict = {}
+    sim_sum_dict = {}
 
     for chanID in set(results_info_df['ChannelID']):
         try:
-            sim_sun_dict[chanID] = sum(results_info_df[results_info_df['ChannelID'] == chanID]['sim_score'])
+            sim_sum_dict[chanID] = sum(results_info_df[results_info_df['ChannelID'] == chanID]['sim_score'])
         except:
             print('There was an error in processing the sum of the similarity score')
     
-    sim_sun_sorted_dict = {key: val for key, val 
+    sim_sum_sorted_dict = {key: val for key, val 
                            in 
-                           sorted(sim_sun_dict.items(), 
+                           sorted(sim_sum_dict.items(), 
                                   reverse=True, 
                                   key=lambda item: item[1])}
     
-    top6_chans = take(6, sim_sun_sorted_dict.items())
+    # Create list with the channel data to send back:
     
-    comm_count = Counter(results_info_df['ChannelID'])
-    comm_count_list = comm_count.most_common()
-    
-    chan_dict_list= [human_format(len(sim_sun_sorted_dict))]
-    
-    
-    
-    # Send the relevant info to the website:
-
-    for chan_id,count in top6_chans:
-        chan_result = results_info_df[results_info_df['ChannelID'] == chan_id].iloc[0]
-        thumb_dict_str = chan_result['thumbnails']
-        thumb_dict_str = thumb_dict_str.replace("\'", "\"")
-        thumb_dict = json.loads(thumb_dict_str)
-        prof_pic_url = thumb_dict['default']['url']
-        chan_result_dict = {
-            'Channel Name':chan_result['title'],
-            'Chan_url':'https://www.youtube.com/channel/'+chan_id,
-            'Comment Fraction':human_format(count),
-            'No. Subscribers':human_format(chan_result['subscriberCount']),
-            'No. Views':human_format(chan_result['viewCount_chan']),
-            'Likes/Views (on video)':round(chan_result['likeCount'] / chan_result['viewCount_vid'],5),
-            'Comments/Views (on video)':round(chan_result['commentCount_vid'] / chan_result['viewCount_vid'],5),
-            'Chan Profile Pic':prof_pic_url
-            }
-        chan_dict_list.append(chan_result_dict)
-    
-    comm_dict_list= [len(results_info_df)]
-    
-    for i in results_info_df[0:6].index:
-        comm_result_dict = {
-        'Name':results_info_df.iloc[i]['authorDisplayName'],
-        'Comment':results_info_df.iloc[i]['textDisplay'],
-        'Sim Score':round(results_info_df.iloc[i]['sim_score'],2),
-        'Profile Pic':results_info_df.iloc[i]['authorProfileImageUrl'],
-        'Vid_url':'https://www.youtube.com/watch?v='+results_info_df.iloc[i]['VidID'],
-        'Vid_title':results_info_df.iloc[i]['VidTitle'],
-        'Channel Name':results_info_df.iloc[i]['title'],
-        'Chan_url':'https://www.youtube.com/channel/'+results_info_df.iloc[i]['ChannelID']        
-            }
-        comm_dict_list.append(comm_result_dict)
+    chan_dict_list = create_chan_list(sim_sum_sorted_dict, 
+        results_info_df, 
+        num_disp)
 
     return chan_dict_list, comm_dict_list
+
+
+
+
 
 
