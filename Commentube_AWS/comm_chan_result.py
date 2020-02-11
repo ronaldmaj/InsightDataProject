@@ -16,10 +16,18 @@ import json
 from glob import glob
 from itertools import islice
 
+# PostgreSQL database
+from sqlalchemy import create_engine
+from sqlalchemy.pool import NullPool
+
+# Create a connection to my database: test_db
+connect_str = 'postgresql://poweruser:insight2020@localhost/test_db' 
+engine = create_engine(connect_str, poolclass=NullPool)
+
 # Load relevant information (channel, video, comments)
-chan_info_df = pd.read_csv('all_channels_info.csv', index_col=0)
-vids_df = pd.read_csv('all_videos_dup_na_clean_df.csv', index_col=0)
-comms_df = pd.read_csv('all_comments_dup_na_clean_df.csv', index_col=0)
+#chan_info_df = pd.read_csv('all_channels_info.csv', index_col=0)
+#vids_df = pd.read_csv('all_videos_dup_na_clean_df.csv', index_col=0)
+#comms_df = pd.read_csv('all_comments_dup_na_clean_df.csv', index_col=0)
 
 # Start NLP model to put search term through
 nlp = spacy.load("en_core_web_lg")
@@ -42,7 +50,8 @@ def human_format(num):
     while abs(num) >= 1000:
         magnitude += 1
         num /= 1000.0
-    return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
+    return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'),
+	['', 'K', 'M', 'B', 'T'][magnitude])
 
 
 def take(n, iterable):
@@ -51,7 +60,7 @@ def take(n, iterable):
 
 
 def create_comm_list(results_info_df, num_disp):
-    
+    # Comment list for output back to the website
     comm_dict_list= [len(results_info_df)]
     
     for i in results_info_df[0:6].index:
@@ -63,14 +72,14 @@ def create_comm_list(results_info_df, num_disp):
         'Vid_url':'https://www.youtube.com/watch?v='+results_info_df.iloc[i]['VidID'],
         'Vid_title':results_info_df.iloc[i]['VidTitle'],
         'Channel Name':results_info_df.iloc[i]['title'],
-        'Chan_url':'https://www.youtube.com/channel/'+results_info_df.iloc[i]['ChannelID']        
+        'Chan_url':'https://www.youtube.com/channel/'+results_info_df.iloc[i]['ChannelID']
             }
         comm_dict_list.append(comm_result_dict)
     
     return comm_dict_list
 
-
 def create_chan_list(sim_sum_sorted_dict, results_info_df, num_disp):
+    # Channel list for output back to the website
     top_chans = take(num_disp, sim_sum_sorted_dict.items())
     
     chan_dict_list= [human_format(len(sim_sum_sorted_dict))]
@@ -107,48 +116,101 @@ def get_comment_channel_results(search_term, num_comms):
     #### Create similarity vector
     sim_vec = cosine_similarity(search_vec,database_mat)
     
+    # Create a dataframe out of it in order to get top 'num_comms' of the 
+    # comments
+    sim_df = pd.DataFrame(sim_vec[0],columns=['sim_score'])
+    sim_df.index.name = 'index'
+    
+    ordered_sims_df = sim_df.sort_values(by='sim_score',ascending=False)
+    top_comms_idxs = list(ordered_sims_df.head(num_comms).index)
+    
+    
+    
+    # Query to create table out of the relevant comments:
+    convar = engine.connect()
+    
+    idx_query_list = ", ".join( repr(idx) for idx in top_comms_idxs)
+    relevant_comms_cols = '\
+    "index",\
+    "CommID",\
+    "VidID",\
+    "ChannelID",\
+    "thumbnails",\
+    "authorDisplayName",\
+    "textDisplay",\
+    "authorProfileImageUrl",\
+    "VidTitle",\
+    "title",\
+    "subscriberCount",\
+    "viewCount_chan",\
+    "likeCount",\
+    "dislikeCount",\
+    "viewCount_vid",\
+    "publishedAt",\
+    "pblishedAt_comm"\
+    '
+    s_query = f'SELECT {relevant_comms_cols} \
+                FROM comms_table LEFT JOIN vids_table USING("VidID") \
+                    LEFT JOIN chans_table USING("ChannelID") \
+                WHERE "index" IN ({idx_query_list})'
+        
+    rsvar = convar.execute(s_query)
+    
+    #  Create a dataframe out of the resultant table
+    results_info_df = pd.DataFrame(rsvar.fetchall())
+    results_info_df.columns = rsvar.keys()
+    
+    # Add new column to 
+    results_info_df = results_info_df.join(ordered_sims_df.head(num_comms))
+    
+    ###########################################################################
+    
     # Assign the scores to the dataframe and sort by the similarity scores
-    comms_df['sim_score'] = (sim_vec[0])
+#    comms_df['sim_score'] = (sim_vec[0])
 
-    rel_comms_df = comms_df.sort_values(by='sim_score',ascending=False).head(num_comms)
+    
+#    rel_comms_df = comms_df.sort_values(by='sim_score',ascending=False).head(num_comms)
      
     # Create a results_info_df that collects all the relevant information on 
     # the resultant df:
-    results_info_df = rel_comms_df[[
-                                    'CommID',
-                                    'authorChannelUrl',
-                                    'authorDisplayName',
-                                    'authorProfileImageUrl',
-                                    'parentId',
-                                    'publishedAt',
-                                    'textDisplay',
-                                    'videoId',
-                                    'sim_score']].copy(deep=True)
+#    results_info_df = rel_comms_df[[
+#                                    'CommID',
+#                                    'authorChannelUrl',
+#                                    'authorDisplayName',
+#                                    'authorProfileImageUrl',
+#                                    'parentId',
+#                                    'publishedAt',
+#                                    'textDisplay',
+#                                    'videoId',
+#                                    'sim_score']].copy(deep=True)
     
     #### Need to rename the column with the video ID to match up with that in the vids_df
-    cols = list(results_info_df.columns)
-    cols[-2] = 'VidID'
-    results_info_df.columns = cols
-    results_info_df = results_info_df.merge(
-        right=vids_df,
-        how='left',
-        on='VidID',
-        suffixes=('_comm', '_vid'))
+#    cols = list(results_info_df.columns)
+#    cols[-2] = 'VidID'
+#    results_info_df.columns = cols
+#    results_info_df = results_info_df.merge(
+#        right=vids_df,
+#        how='left',
+#        on='VidID',
+#        suffixes=('_comm', '_vid'))
     
     # Remove duplicated comments:
-    results_info_df.drop_duplicates(subset='CommID', inplace=True)
+#    results_info_df.drop_duplicates(subset='CommID', inplace=True)
     
     #### Lastly get the channel info:
     
     # Rename common columns:
-    cols = list(results_info_df.columns)    
-    cols[5] = 'publishedAt_comm'    
-    results_info_df.columns = cols    
-    results_info_df = results_info_df.merge(
-        right=chan_info_df,
-        how='left',
-        on='ChannelID',
-        suffixes=('_vid', '_chan'))
+#    cols = list(results_info_df.columns)    
+#    cols[5] = 'publishedAt_comm'    
+#    results_info_df.columns = cols    
+#    results_info_df = results_info_df.merge(
+#        right=chan_info_df,
+#        how='left',
+#        on='ChannelID',
+#        suffixes=('_vid', '_chan'))
+    
+    
+    ###########################################################################
     
     # Remove duplicated comments:
     results_info_df.drop_duplicates(subset='CommID', inplace=True)
@@ -185,6 +247,47 @@ def get_comment_channel_results(search_term, num_comms):
         num_disp)
 
     return chan_dict_list, comm_dict_list
+
+
+
+
+# Add new column to comments table (only do once - sim_score)
+
+# Update the column and assign the similarity scores for the given search
+
+# Pick out top whatever number of comments (order by sim_score) to save as dataframe
+
+# SQL query the relevant video and channel information as well
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
