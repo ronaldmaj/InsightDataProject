@@ -5,16 +5,16 @@
 # CommenTube
 ## Helping Brands Find the Right YouTuber
 
-- [Introduction](#heading)
+- [Introduction](#Introduction)
 
-- [Overview of Website](#heading-1)
-  * [Website Link](#sub-heading-1)
+- [Overview of Website](#Overview-of-Website)
+  * [Website Link](#Website-Link)
 
 - [Repository Structure](#heading-2)
-  * [CommenTube_AWS](#sub-heading-2)
-  * [data](#sub-heading-3)
-  * [notebooks](#sub-heading-4)
-  * [scripts](#sub-heading-5)
+  * [CommenTube_AWS](#CommenTube_AWS)
+  * [data](#data)
+  * [notebooks](#notebooks)
+  * [scripts](#scripts)
 
 <!-- toc -->
 ## Introduction
